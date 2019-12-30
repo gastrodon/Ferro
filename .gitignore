@@ -1,2 +1,4 @@
 /target
 **/*.rs.bk
+.on-save.json
+monke-cdn
