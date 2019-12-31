@@ -50,6 +50,11 @@ routes:
     /:
         POST:
             description: Upload some file. POST body should be multipart data containing the mime data to upload
+            query strings:
+                - name: name
+                  value: optional name of this file, if a random UUIDv4 is not desired
+                  type: string
+                
             responses:
                 200: $response.upload
 

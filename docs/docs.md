@@ -2,6 +2,12 @@
 <summary>POST /</summary>
 Upload some file. POST body should be multipart data containing the mime data to upload
 
+__query strings__
+
+|name|value|type|
+| - | - | - |
+|name|optional name of this file, if a random UUIDv4 is not desired|string|
+
 __headers__
 
 |name|value|required|
