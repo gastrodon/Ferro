@@ -80,6 +80,10 @@ routes:
                   value: Pixel scale on y axis
                   type: int
 
+                - name: mime
+                  valie: alternate mimetype to specify returned media as
+                  type: string
+
             responses:
                 200: $response.file
 
