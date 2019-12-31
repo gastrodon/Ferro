@@ -16,7 +16,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	server.RecieveSecret("foobar")
+	server.RecieveSecret(secret)
 	server.BuildRoutes()
 	http.Handle("/", server.BuildHandler(
 		http.HandlerFunc(server.RouteMain),

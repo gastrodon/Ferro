@@ -2,3 +2,4 @@
 **/*.rs.bk
 .on-save.json
 monke-cdn
+config.go
