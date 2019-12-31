@@ -3,6 +3,7 @@ package server
 import (
 	"fmt"
 	"log"
+	"monke-cdn/server/routes"
 	"monke-cdn/util"
 	"net/http"
 	"regexp"
@@ -17,10 +18,10 @@ func BuildRoutes() {
 	var regexp_err error
 	var filename_pattern string = "(.)+((.).+)?"
 
-	root_pattern, regexp_err = regexp.Compile("^/$")
-	content_pattern, regexp_err = regexp.Compile(fmt.Sprintf("^/%s/?$", filename_pattern))
-	md5_pattern, regexp_err = regexp.Compile(fmt.Sprintf("^/%s/md5/?$", filename_pattern))
-	thumb_pattern, regexp_err = regexp.Compile(fmt.Sprintf("^/%s/thumb/?$", filename_pattern))
+	root_pattern, regexp_err = regexp.Compile("^/(&.+)?$")
+	content_pattern, regexp_err = regexp.Compile(fmt.Sprintf("^/%s/?(&.+)?$", filename_pattern))
+	md5_pattern, regexp_err = regexp.Compile(fmt.Sprintf("^/%s/md5/?(&.+)$", filename_pattern))
+	thumb_pattern, regexp_err = regexp.Compile(fmt.Sprintf("^/%s/thumb/?(&.+)$", filename_pattern))
 
 	if regexp_err != nil {
 		log.Fatal(regexp_err)
@@ -36,7 +37,7 @@ func RouteMain(response http.ResponseWriter, request *http.Request) {
 
 	switch {
 	case root_pattern.MatchString(path):
-		fmt.Println("root")
+		routes.Root(response, request)
 		return
 	case content_pattern.MatchString(path):
 		fmt.Println("content_pattern")
