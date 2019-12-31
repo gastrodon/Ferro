@@ -8,7 +8,6 @@ import (
 	"regexp"
 )
 
-var uuid_pattern *regexp.Regexp
 var root_pattern *regexp.Regexp
 var content_pattern *regexp.Regexp
 var md5_pattern *regexp.Regexp
@@ -16,12 +15,12 @@ var thumb_pattern *regexp.Regexp
 
 func BuildRoutes() {
 	var regexp_err error
-	var uuid_pattern string = "[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89AB][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}"
+	var filename_pattern string = "(.)+((.).+)?"
 
 	root_pattern, regexp_err = regexp.Compile("^/$")
-	content_pattern, regexp_err = regexp.Compile(fmt.Sprintf("^/%s/?$", uuid_pattern))
-	md5_pattern, regexp_err = regexp.Compile(fmt.Sprintf("^/%s/md5/?$", uuid_pattern))
-	thumb_pattern, regexp_err = regexp.Compile(fmt.Sprintf("^/%s/thumb/?$", uuid_pattern))
+	content_pattern, regexp_err = regexp.Compile(fmt.Sprintf("^/%s/?$", filename_pattern))
+	md5_pattern, regexp_err = regexp.Compile(fmt.Sprintf("^/%s/md5/?$", filename_pattern))
+	thumb_pattern, regexp_err = regexp.Compile(fmt.Sprintf("^/%s/thumb/?$", filename_pattern))
 
 	if regexp_err != nil {
 		log.Fatal(regexp_err)
