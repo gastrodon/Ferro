@@ -1,0 +1,18 @@
+mode: count
+monke-cdn/storage/mongo.go:25.63,28.2 2 4007
+monke-cdn/storage/mongo.go:39.53,45.16 4 1
+monke-cdn/storage/mongo.go:50.2,50.8 1 1
+monke-cdn/storage/mongo.go:45.16,48.3 2 1
+monke-cdn/storage/mongo.go:53.26,55.2 1 1
+monke-cdn/storage/mongo.go:57.39,60.11 2 1001
+monke-cdn/storage/mongo.go:69.2,69.8 1 1001
+monke-cdn/storage/mongo.go:60.11,64.28 3 1001
+monke-cdn/storage/mongo.go:64.28,65.9 1 1001
+monke-cdn/storage/mongo.go:72.69,78.16 4 2003
+monke-cdn/storage/mongo.go:82.2,85.22 3 2003
+monke-cdn/storage/mongo.go:89.2,89.23 1 2003
+monke-cdn/storage/mongo.go:94.2,94.8 1 2003
+monke-cdn/storage/mongo.go:78.16,80.3 1 0
+monke-cdn/storage/mongo.go:85.22,87.3 1 1
+monke-cdn/storage/mongo.go:89.23,92.3 2 2
+monke-cdn/storage/mongo.go:97.39,105.2 2 1
