@@ -101,6 +101,7 @@ func CreateReference(id, mime string, md5 []byte) (conflicts bool, err error) {
 	}
 
 	var writable map[string]interface{} = map[string]interface{}{
+		"path":    fmt.Sprintf("%s%s", file_root, id),
 		"id":      id,
 		"mime":    mime,
 		"md5":     md5,
