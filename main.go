@@ -3,6 +3,7 @@ package main
 import (
 	"monke-cdn/server"
 	"monke-cdn/storage"
+	"monke-cdn/util"
 
 	"flag"
 	"fmt"
@@ -15,18 +16,15 @@ func main() {
 	flag.Parse()
 
 	var err error = storage.ConnectTo(fmt.Sprintf("%s:%s", mongo_uname, mongo_pass), mongo_host, "monke-cdn")
-	fmt.Println(*file_root)
 	err = storage.SetFileRoot(*file_root)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	server.RecieveSecret(secret)
+	util.RecieveSecret(secret)
 	server.BuildRoutes()
-	http.Handle("/", server.BuildHandler(
-		http.HandlerFunc(server.RouteMain),
-		server.AuthenticateRoute,
-	))
+	http.HandleFunc("/", server.RouteMain)
+
 	fmt.Println("CDN online")
 
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":8000"), nil))
