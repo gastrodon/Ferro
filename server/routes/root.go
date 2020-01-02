@@ -7,7 +7,6 @@ import (
 	"bytes"
 	"crypto/md5"
 	"errors"
-	// "fmt"
 	"io"
 	"mime/multipart"
 	"net/http"
@@ -99,6 +98,7 @@ func Root(response http.ResponseWriter, request *http.Request) {
 	err = storage.WriteMultipartFile(id, file_dupe)
 	if err != nil {
 		util.HTTPInternalError(response, request, err)
+		return
 	}
 
 	var r_map map[string]interface{} = map[string]interface{}{

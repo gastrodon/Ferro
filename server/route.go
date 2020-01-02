@@ -40,7 +40,7 @@ func RouteMain(response http.ResponseWriter, request *http.Request) {
 		routes.Root(response, request)
 		return
 	case content_pattern.MatchString(path):
-		fmt.Println("content_pattern")
+		routes.Media(response, request)
 		return
 	case md5_pattern.MatchString(path):
 		fmt.Println("md5_pattern")
