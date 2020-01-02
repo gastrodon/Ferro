@@ -6,4 +6,4 @@ COPY . .
 
 RUN go get ./...
 
-ENTRYPOINT go run . -crt sslkey/monke-crt.pem -key sslkey/monke-key.pem -at ~/ferro-files/
+ENTRYPOINT go run . -csr sslkey/server.csr -key sslkey/server.key -at ~/ferro-files/
