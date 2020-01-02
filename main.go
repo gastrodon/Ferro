@@ -13,6 +13,9 @@ import (
 
 func main() {
 	var file_root *string = flag.String("at", "/monke/files/", "File storage root")
+	var csr *string = flag.String("csr", "", "csr to use for SSL")
+	var key *string = flag.String("key", "", "key to use for SSL")
+	var port *int = flag.Int("p", 8000, "port to serve")
 	flag.Parse()
 
 	var err error = storage.ConnectTo(fmt.Sprintf("%s:%s", mongo_uname, mongo_pass), mongo_host, "monke-cdn")
@@ -27,5 +30,8 @@ func main() {
 
 	fmt.Println("CDN online")
 
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":8000"), nil))
+	if len(*csr)+len(*key) != 0 {
+		log.Fatal(http.ListenAndServeTLS(fmt.Sprintf(":%d", *port), *csr, *key, nil))
+	}
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", *port), nil))
 }
