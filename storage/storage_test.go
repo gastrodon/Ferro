@@ -14,7 +14,7 @@ func TestMain(main *testing.M) {
 	DropDB("test_storage")
 
 	id, _ = NewUUID()
-	CreateReference(id, "image/jpg")
+	CreateReference(id, "image/jpg", "f")
 
 	os.Exit(main.Run())
 	DropDB("test_storage")

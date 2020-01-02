@@ -94,7 +94,7 @@ func GetUnique(filt bson.D) (result bson.M, exists bool, err error) {
 	return
 }
 
-func CreateReference(id, mime, md5, string) {
+func CreateReference(id, mime string, md5 []byte) {
 	var writable map[string]interface{} = map[string]interface{}{
 		"id":      id,
 		"mime":    mime,
