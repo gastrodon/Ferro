@@ -1,13 +1,15 @@
 package storage
 
 import (
+	"monke-cdn/util"
+
 	"context"
 	"fmt"
 	"github.com/satori/go.uuid"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"monke-cdn/util"
+	"path/filepath"
 	"time"
 )
 
@@ -100,8 +102,14 @@ func CreateReference(id, mime string, md5 []byte) (conflicts bool, err error) {
 		return
 	}
 
+	var absolute string
+	absolute, err = filepath.Abs(fmt.Sprintf("%s%s", file_root, id))
+	if err != nil {
+		return
+	}
+
 	var writable map[string]interface{} = map[string]interface{}{
-		"path":    fmt.Sprintf("%s%s", file_root, id),
+		"path":    absolute,
 		"id":      id,
 		"mime":    mime,
 		"md5":     md5,
