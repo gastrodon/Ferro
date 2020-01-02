@@ -94,7 +94,12 @@ func GetUnique(filt bson.D) (result bson.M, exists bool, err error) {
 	return
 }
 
-func CreateReference(id, mime string, md5 []byte) {
+func CreateReference(id, mime string, md5 []byte) (conflicts bool, err error) {
+	_, conflicts, err = GetUnique(bson.D{{"id", id}})
+	if conflicts || err != nil {
+		return
+	}
+
 	var writable map[string]interface{} = map[string]interface{}{
 		"id":      id,
 		"mime":    mime,
@@ -102,5 +107,6 @@ func CreateReference(id, mime string, md5 []byte) {
 		"created": time.Now().Unix(),
 	}
 
-	media.InsertOne(context.Background(), writable)
+	_, err = media.InsertOne(context.Background(), writable)
+	return
 }

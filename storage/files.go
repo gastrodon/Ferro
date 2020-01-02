@@ -13,7 +13,7 @@ func SetFileRoot(where string) (err error) {
 	return
 }
 
-func WriteMultipartFile(id string, file io.Reader) (path string, err error) {
+func WriteMultipartFile(id string, file io.Reader) (err error) {
 	var out *os.File
 	defer out.Close()
 
