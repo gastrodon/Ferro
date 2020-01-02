@@ -44,7 +44,6 @@ __query strings__
 |scale|Image scale percent. Thumbnails use 30(?)|int > 0|100|
 |scalex|Pixel scale on x axis|int| |
 |scaley|Pixel scale on y axis|int| |
-|mime|alternate mimetype to specify returned media as|string| |
 
 __headers__
 
