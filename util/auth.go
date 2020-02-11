@@ -1,10 +1,12 @@
 package util
 
-var secret string
+import (
+	"os"
+)
 
-func RecieveSecret(recieved string) {
-	secret = recieved
-}
+var (
+	secret = os.Getenv("MONKE_SECRET")
+)
 
 func Authed(auth string) (authed bool) {
 	return auth == secret

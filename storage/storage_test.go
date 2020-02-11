@@ -2,6 +2,7 @@ package storage
 
 import (
 	"context"
+	"fmt"
 	"go.mongodb.org/mongo-driver/bson"
 	"os"
 	"testing"
@@ -9,15 +10,22 @@ import (
 
 var id string
 
+var (
+	mongo_uname = os.Getenv("MONGO_USER")
+	mongo_pass  = os.Getenv("MONGO_PASS")
+	mongo_host  = os.Getenv("MONGO_HOST")
+	db_name     = "test_storage"
+)
+
 func TestMain(main *testing.M) {
-	ConnectTo("foobar:foobar2000", "localhost", "test_storage")
-	DropDB("test_storage")
+	ConnectTo(fmt.Sprintf("%s:%s", mongo_uname, mongo_pass), mongo_host, db_name)
+	DropDB(db_name)
 
 	id, _ = NewUUID()
 	CreateReference(id, "image/jpg", []byte("f"))
 
 	os.Exit(main.Run())
-	DropDB("test_storage")
+	DropDB(db_name)
 }
 
 func Test_GetUnique(test *testing.T) {

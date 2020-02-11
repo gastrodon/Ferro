@@ -3,12 +3,19 @@ package main
 import (
 	"monke-cdn/server"
 	"monke-cdn/storage"
-	"monke-cdn/util"
 
 	"flag"
 	"fmt"
 	"log"
 	"net/http"
+	"os"
+)
+
+var (
+	mongo_uname = os.Getenv("MONGO_USER")
+	mongo_pass  = os.Getenv("MONGO_PASS")
+	mongo_host  = os.Getenv("MONGO_HOST")
+	db_name     = "monke-cdn"
 )
 
 func main() {
@@ -18,13 +25,12 @@ func main() {
 	var port *int = flag.Int("port", 8000, "port to serve")
 	flag.Parse()
 
-	var err error = storage.ConnectTo(fmt.Sprintf("%s:%s", mongo_uname, mongo_pass), mongo_host, "monke-cdn")
+	var err error = storage.ConnectTo(fmt.Sprintf("%s:%s", mongo_uname, mongo_pass), mongo_host, db_name)
 	err = storage.SetFileRoot(*file_root)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	util.RecieveSecret(secret)
 	http.HandleFunc("/", server.RouteMain)
 
 	fmt.Println("CDN online")

@@ -5,3 +5,4 @@ monke-cdn
 config.go
 files
 sslkey
+ignore_*
