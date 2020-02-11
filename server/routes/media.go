@@ -9,9 +9,13 @@ import (
 	"strings"
 )
 
-func uploadMedia(response http.ResponseWriter, request *http.Request) {
-	var url []string = strings.Split(request.URL.String(), ".")
-	var id string = url[0][1:]
+func uploadMedia(response http.ResponseWriter, request *http.Request, result map[string]interface{}) {
+	http.ServeFile(response, request, result["path"].(string))
+	return
+}
+
+func Media(response http.ResponseWriter, request *http.Request) {
+	var id string = strings.Split(request.URL.Path, ".")[0][1:]
 
 	var result map[string]interface{}
 	var exists bool
@@ -27,14 +31,10 @@ func uploadMedia(response http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	http.ServeFile(response, request, result["path"].(string))
-	return
-}
-
-func Media(response http.ResponseWriter, request *http.Request) {
 	switch request.Method {
 	case "GET":
-		uploadMedia(response, request)
+		uploadMedia(response, request, result)
+		return
 	}
 
 	util.HTTPResponseError(response, "bad_method", 405)
