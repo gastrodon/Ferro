@@ -2,31 +2,17 @@ package server
 
 import (
 	"fmt"
-	"log"
 	"monke-cdn/server/routes"
 	"monke-cdn/util"
 	"net/http"
 	"regexp"
 )
 
-var root_pattern *regexp.Regexp
-var content_pattern *regexp.Regexp
-var md5_pattern *regexp.Regexp
-var thumb_pattern *regexp.Regexp
-
-func BuildRoutes() {
-	var regexp_err error
-	var filename_pattern string = "(.)+((.).+)?"
-
-	root_pattern, regexp_err = regexp.Compile("^/(&.+)?$")
-	content_pattern, regexp_err = regexp.Compile(fmt.Sprintf("^/%s/?(&.+)?$", filename_pattern))
-	md5_pattern, regexp_err = regexp.Compile(fmt.Sprintf("^/%s/md5/?(&.+)$", filename_pattern))
-	thumb_pattern, regexp_err = regexp.Compile(fmt.Sprintf("^/%s/thumb/?(&.+)$", filename_pattern))
-
-	if regexp_err != nil {
-		log.Fatal(regexp_err)
-	}
-}
+var filename_pattern string = "(.)+((.).+)?"
+var root_pattern = regexp.MustCompile("^/(&.+)?$")
+var content_pattern = regexp.MustCompile(fmt.Sprintf("^/%s/?(&.+)?$", filename_pattern))
+var md5_pattern = regexp.MustCompile(fmt.Sprintf("^/%s/md5/?(&.+)$", filename_pattern))
+var thumb_pattern = regexp.MustCompile(fmt.Sprintf("^/%s/thumb/?(&.+)$", filename_pattern))
 
 func RouteMain(response http.ResponseWriter, request *http.Request) {
 	var r_map map[string]interface{} = map[string]interface{}{

@@ -25,7 +25,6 @@ func main() {
 	}
 
 	util.RecieveSecret(secret)
-	server.BuildRoutes()
 	http.HandleFunc("/", server.RouteMain)
 
 	fmt.Println("CDN online")
