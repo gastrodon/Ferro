@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-func Media(response http.ResponseWriter, request *http.Request) {
+func uploadMedia(response http.ResponseWriter, request *http.Request) {
 	var url []string = strings.Split(request.URL.String(), ".")
 	var id string = url[0][1:]
 
@@ -29,4 +29,13 @@ func Media(response http.ResponseWriter, request *http.Request) {
 
 	http.ServeFile(response, request, result["path"].(string))
 	return
+}
+
+func Media(response http.ResponseWriter, request *http.Request) {
+	switch request.Method {
+	case "GET":
+		uploadMedia(response, request)
+	}
+
+	util.HTTPResponseError(response, "bad_method", 405)
 }
