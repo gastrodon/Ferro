@@ -8,11 +8,11 @@ import (
 	"regexp"
 )
 
-var filename_pattern string = "(.)+((.).+)?"
+var filename_pattern string = "[^/]+([.]{1}[^/]+)?"
 var root_pattern = regexp.MustCompile("^/(&.+)?$")
-var content_pattern = regexp.MustCompile(fmt.Sprintf("^/%s/?(&.+)?$", filename_pattern))
-var md5_pattern = regexp.MustCompile(fmt.Sprintf("^/%s/md5/?(&.+)$", filename_pattern))
-var thumb_pattern = regexp.MustCompile(fmt.Sprintf("^/%s/thumb/?(&.+)$", filename_pattern))
+var content_pattern = regexp.MustCompile(fmt.Sprintf("^/%s/?$", filename_pattern))
+var md5_pattern = regexp.MustCompile(fmt.Sprintf("^/%s/md5/?$", filename_pattern))
+var thumb_pattern = regexp.MustCompile(fmt.Sprintf("^/%s/thumb/?$", filename_pattern))
 
 func RouteMain(response http.ResponseWriter, request *http.Request) {
 	var r_map map[string]interface{} = map[string]interface{}{
