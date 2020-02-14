@@ -96,6 +96,16 @@ func GetUnique(filt bson.D) (result bson.M, exists bool, err error) {
 	return
 }
 
+func DeleteUnique(filt bson.D) (deleted bool, err error) {
+	var result *mongo.DeleteResult
+	result, err = media.DeleteOne(timeout_ctx(5), filt)
+	if err == nil {
+		deleted = result.DeletedCount == 1
+	}
+
+	return
+}
+
 func CreateReference(id, mime string, md5 []byte) (conflicts bool, err error) {
 	_, conflicts, err = GetUnique(bson.D{{"id", id}})
 	if conflicts || err != nil {

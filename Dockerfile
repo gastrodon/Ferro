@@ -1,8 +1,14 @@
-
 FROM golang:1.13
 
 WORKDIR /src
 COPY . .
 
-RUN go build -o cdn .
-ENTRYPOINT ./cdn -csr sslkey/server.csr -key sslkey/server.key -at ~/ferro-files/ -port 443
+ENV MONGO_HOST "localhost"
+ENV MONGO_USER "admin"
+ENV MONGO_PASS ""
+
+ENV FERRO_SECRET ""
+
+RUN go get ./...
+
+ENTRYPOINT go run . -port 80 -at /files

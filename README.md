@@ -4,12 +4,19 @@ If you don't already know how to use it, you probably shouldn't be. If you want 
 ### TODO
 - [x] POST /
 - [ ] GET /:id/
-    - [ ] file
+    - [x] file
     - [ ] ?cropx
     - [ ] ?cropxy
     - [ ] ?scale
     - [ ] ?scalex
     - [ ] ?scaley
-- [ ] DELETE /:id/
+- [x] DELETE /:id/
 - [ ] GET /:id/md5
 - [ ] GET /:id/thumb
+
+### Environment Variables
+
+MONGO_USER -> Mongodb username
+MONGO_PASS -> Mongodb password
+MONGO_HOST -> Mongodb server host
+FERRO_SECRET -> Auth header value to look for

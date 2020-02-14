@@ -31,8 +31,12 @@ func getFile(request *http.Request, name string, max_size int64) (file multipart
 
 	var header *multipart.FileHeader
 	file, header, err = request.FormFile(name)
+	if header == nil {
+		err = errors.New("bad_request")
+		return
+	}
 	file, err = header.Open()
-	if file == nil || header == nil {
+	if file == nil {
 		err = errors.New("bad_request")
 		return
 	}

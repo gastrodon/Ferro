@@ -14,6 +14,24 @@ func uploadMedia(response http.ResponseWriter, request *http.Request, result map
 	return
 }
 
+func deleteMedia(response http.ResponseWriter, request *http.Request, result map[string]interface{}) {
+	var err error
+	_, err = storage.DeleteUnique(bson.D{{"id", result["id"].(string)}})
+	if err != nil {
+		util.HTTPInternalError(response, request, err)
+		return
+	}
+
+	err = storage.DeleteFile(result["path"].(string))
+	if err != nil {
+		util.HTTPInternalError(response, request, err)
+		return
+	}
+
+	response.WriteHeader(204)
+	return
+}
+
 func Media(response http.ResponseWriter, request *http.Request) {
 	var id string = strings.Split(request.URL.Path, ".")[0][1:]
 
@@ -34,6 +52,9 @@ func Media(response http.ResponseWriter, request *http.Request) {
 	switch request.Method {
 	case "GET":
 		uploadMedia(response, request, result)
+		return
+	case "DELETE":
+		deleteMedia(response, request, result)
 		return
 	}
 

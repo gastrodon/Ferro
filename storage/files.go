@@ -21,13 +21,19 @@ func SetFileRoot(where string) (err error) {
 
 func WriteMultipartFile(id string, file io.Reader) (err error) {
 	var out *os.File
-	defer out.Close()
 
 	out, err = os.Create(fmt.Sprintf("%s%s", file_root, id))
 	if err != nil {
+		out.Close()
 		return
 	}
 
 	io.Copy(out, file)
+	out.Close()
+	return
+}
+
+func DeleteFile(path string) (err error) {
+	err = os.Remove(path)
 	return
 }

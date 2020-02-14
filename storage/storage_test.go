@@ -95,3 +95,48 @@ func Test_NewUUID(test *testing.T) {
 		media.InsertOne(context.Background(), bson.D{{"id", new_id}})
 	}
 }
+
+func Test_DeleteUnique(test *testing.T) {
+	var deletable_id string = "killme"
+	var writable map[string]interface{} = map[string]interface{}{
+		"id": deletable_id,
+	}
+
+	media.InsertOne(context.Background(), writable)
+
+	var deleted bool
+	var err error
+	deleted, err = DeleteUnique(bson.D{{"id", deletable_id}})
+	if err != nil {
+		test.Fatal(err)
+	}
+
+	if !deleted {
+		test.Errorf("%s was not deleted!", deletable_id)
+	}
+
+	var exists bool
+	_, exists, err = GetUnique(bson.D{{"id", deletable_id}})
+	if err != nil {
+		test.Fatal(err)
+	}
+
+	if exists {
+		test.Errorf("%s still exists after deletion!", deletable_id)
+	}
+}
+
+func Test_DeleteUnique_Nothing(test *testing.T) {
+	var deletable_id string = "nothing here"
+
+	var deleted bool
+	var err error
+	deleted, err = DeleteUnique(bson.D{{"id", deletable_id}})
+	if err != nil {
+		test.Fatal(err)
+	}
+
+	if deleted {
+		test.Errorf("%s was deleted, but does not exist", deletable_id)
+	}
+}

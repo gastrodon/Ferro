@@ -5,7 +5,7 @@ import (
 )
 
 var (
-	secret = os.Getenv("MONKE_SECRET")
+	secret = os.Getenv("FERRO_SECRET")
 )
 
 func Authed(auth string) (authed bool) {
