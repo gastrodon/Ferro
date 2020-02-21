@@ -56,7 +56,7 @@ func ConnectTo(login, password, uri, name string) (err error) {
 		return
 	}
 
-	log.Fatal("Failed to connect to %s: %s", uri, err)
+	log.Fatalf("Failed to connect to %s: %s", uri, err)
 
 	return
 }

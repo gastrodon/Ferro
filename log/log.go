@@ -19,7 +19,8 @@ var (
 	err   *log.Logger = log.New(os.Stdout, "[error] ", log.Llongfile)
 	fatal *log.Logger = log.New(os.Stdout, "[fatal] ", log.Llongfile)
 
-	Fatal func(v ...interface{}) = fatal.Fatal
+	Fatal  func(v ...interface{})              = fatal.Fatal
+	Fatalf func(base string, v ...interface{}) = fatal.Fatalf
 )
 
 func At(new_level int) {
