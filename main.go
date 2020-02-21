@@ -1,12 +1,12 @@
 package main
 
 import (
+	"monke-cdn/log"
 	"monke-cdn/server"
 	"monke-cdn/storage"
 
 	"flag"
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 )
@@ -19,9 +19,14 @@ var (
 )
 
 func main() {
-	var file_root *string = flag.String("at", "/monke/files/", "File storage root")
-	var port *int = flag.Int("port", 8000, "port to serve")
+	var (
+		level     *int    = flag.Int("level", 1, "logging level")
+		file_root *string = flag.String("at", "/monke/files/", "File storage root")
+		port      *int    = flag.Int("port", 8000, "port to serve")
+	)
 	flag.Parse()
+
+	log.At(*level)
 
 	var err error = storage.ConnectTo(fmt.Sprintf("%s:%s", mongo_uname, mongo_pass), mongo_host, db_name)
 	err = storage.SetFileRoot(*file_root)
