@@ -13,4 +13,4 @@ services:
             - MONGO_PASS
             - FERRO_SECRET
         volumes:
-            - /files:/ferrothorn/files
+            - /ferrothorn/files:/files
