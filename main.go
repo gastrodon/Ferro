@@ -20,8 +20,6 @@ var (
 
 func main() {
 	var file_root *string = flag.String("at", "/monke/files/", "File storage root")
-	var csr *string = flag.String("csr", "", "csr to use for SSL")
-	var key *string = flag.String("key", "", "key to use for SSL")
 	var port *int = flag.Int("port", 8000, "port to serve")
 	flag.Parse()
 
@@ -33,10 +31,6 @@ func main() {
 
 	http.HandleFunc("/", server.RouteMain)
 
-	fmt.Println("CDN online")
-
-	if len(*csr)+len(*key) != 0 {
-		log.Fatal(http.ListenAndServeTLS(fmt.Sprintf(":%d", *port), *csr, *key, nil))
-	}
+	log.Println("CDN online")
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", *port), nil))
 }
