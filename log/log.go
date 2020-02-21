@@ -14,10 +14,10 @@ const (
 var (
 	level int = 1
 
-	info  *log.Logger = log.New(os.Stdout, "[info ] ", log.Llongfile)
-	trace *log.Logger = log.New(os.Stdout, "[trace] ", log.Llongfile)
-	err   *log.Logger = log.New(os.Stdout, "[error] ", log.Llongfile)
-	fatal *log.Logger = log.New(os.Stdout, "[fatal] ", log.Llongfile)
+	info  *log.Logger = log.New(os.Stdout, "[info ] ", log.LstdFlags)
+	trace *log.Logger = log.New(os.Stdout, "[trace] ", log.LstdFlags)
+	err   *log.Logger = log.New(os.Stdout, "[error] ", log.LstdFlags)
+	fatal *log.Logger = log.New(os.Stdout, "[fatal] ", log.LstdFlags)
 
 	Fatal  func(v ...interface{})              = fatal.Fatal
 	Fatalf func(base string, v ...interface{}) = fatal.Fatalf
