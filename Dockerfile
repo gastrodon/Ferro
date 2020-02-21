@@ -12,6 +12,5 @@ ENV FERRO_LOG_LEVEL 2
 
 RUN mkdir -p /files
 RUN go get ./...
-RUN go test ./...
 
-ENTRYPOINT go run . -port 80 -at /files -log $FERRO_LOG_LEVEL
+ENTRYPOINT go run . -port 80 -at /files -level $FERRO_LOG_LEVEL
