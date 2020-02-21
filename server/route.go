@@ -1,9 +1,11 @@
 package server
 
 import (
-	"fmt"
+	"monke-cdn/log"
 	"monke-cdn/server/routes"
 	"monke-cdn/util"
+
+	"fmt"
 	"net/http"
 	"regexp"
 )
@@ -15,10 +17,6 @@ var md5_pattern = regexp.MustCompile(fmt.Sprintf("^/%s/md5/?$", filename_pattern
 var thumb_pattern = regexp.MustCompile(fmt.Sprintf("^/%s/thumb/?$", filename_pattern))
 
 func RouteMain(response http.ResponseWriter, request *http.Request) {
-	var r_map map[string]interface{} = map[string]interface{}{
-		"path": request.URL.Path,
-	}
-
 	var path string = request.URL.Path
 
 	switch {
@@ -29,11 +27,15 @@ func RouteMain(response http.ResponseWriter, request *http.Request) {
 		routes.Media(response, request)
 		return
 	case md5_pattern.MatchString(path):
-		fmt.Println("md5_pattern")
+		log.Println("md5_pattern")
 		return
 	case thumb_pattern.MatchString(path):
-		fmt.Println("thumb_pattern")
+		log.Println("thumb_pattern")
 		return
+	}
+
+	var r_map map[string]interface{} = map[string]interface{}{
+		"path": path,
 	}
 
 	util.HTTPResponseJson(response, r_map, 200)
