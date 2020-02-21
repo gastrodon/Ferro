@@ -9,6 +9,7 @@ ENV MONGO_PASS ""
 
 ENV FERRO_SECRET ""
 
+RUN mkdir -p /files
 RUN go get ./...
 RUN go test ./...
 
