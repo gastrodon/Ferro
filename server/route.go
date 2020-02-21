@@ -18,6 +18,7 @@ var thumb_pattern = regexp.MustCompile(fmt.Sprintf("^/%s/thumb/?$", filename_pat
 
 func RouteMain(response http.ResponseWriter, request *http.Request) {
 	var path string = request.URL.Path
+	log.Tracef("Routing %s", path)
 
 	switch {
 	case root_pattern.MatchString(path):
