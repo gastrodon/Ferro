@@ -43,3 +43,15 @@ func Errorf(base string, v ...interface{}) {
 		err.Printf(base, v...)
 	}
 }
+
+func Traceln(v ...interface{}) {
+	if level >= Ltrace {
+		trace.Println(v...)
+	}
+}
+
+func Tracef(base string, v ...interface{}) {
+	if level >= Ltrace {
+		trace.Printf(base, v...)
+	}
+}
