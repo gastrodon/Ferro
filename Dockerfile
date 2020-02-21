@@ -10,5 +10,6 @@ ENV MONGO_PASS ""
 ENV FERRO_SECRET ""
 
 RUN go get ./...
+RUN go test ./...
 
 ENTRYPOINT go run . -port 80 -at /files
