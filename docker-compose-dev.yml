@@ -19,6 +19,7 @@ services:
             - MONGO_HOST=ferro-mongo
             - MONGO_USER=foobar
             - MONGO_PASS=foobar2000
+            - FERRO_LOG_LEVEL=2
             - FERRO_SECRET
         volumes:
             - ~/.ferrothorn/files:/files
