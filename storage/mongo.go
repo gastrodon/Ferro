@@ -31,16 +31,17 @@ func timeout_ctx(seconds time.Duration) (ctx context.Context) {
 
 /*
  * Connect to some database. This should be called before database operations are done
- * login    -> database login info
+ * login    -> database login username
+ * password    -> database login password
  * uri      -> database location
  * name     -> database to load from uri
  *
  * returns
  * err      -> error while connecting
  */
-func ConnectTo(login, uri, name string) (err error) {
-	var ctx context.Context
-	ctx = timeout_ctx(10)
+func ConnectTo(login, password, uri, name string) (err error) {
+	log.Printf("Connecting to %s as %s", uri, login)
+	client, err = mongo.Connect(timeout_ctx(2), options.Client().ApplyURI(fmt.Sprintf("mongodb://%s:%s@%s:27017", login, password, uri)))
 
 	client, err = mongo.Connect(ctx, options.Client().ApplyURI(fmt.Sprintf("mongodb://%s@%s:27017", login, uri)))
 
