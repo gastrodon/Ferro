@@ -9,6 +9,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/mongo/readpref"
 	"path/filepath"
 	"time"
 )
@@ -43,12 +44,18 @@ func ConnectTo(login, password, uri, name string) (err error) {
 	log.Printf("Connecting to %s as %s", uri, login)
 	client, err = mongo.Connect(timeout_ctx(2), options.Client().ApplyURI(fmt.Sprintf("mongodb://%s:%s@%s:27017", login, password, uri)))
 
-	client, err = mongo.Connect(ctx, options.Client().ApplyURI(fmt.Sprintf("mongodb://%s@%s:27017", login, uri)))
+	if err == nil {
+		log.Printf("Probing mongod server at %s as %s", uri, login)
+		err = client.Ping(timeout_ctx(2), readpref.Primary())
+	}
 
 	if err == nil {
 		database = client.Database(name)
 		media = database.Collection("media")
+		return
 	}
+
+	log.Fatal("Failed to connect to %s: %s", uri, err)
 
 	return
 }

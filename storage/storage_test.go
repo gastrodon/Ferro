@@ -18,7 +18,7 @@ var (
 )
 
 func TestMain(main *testing.M) {
-	var err error = ConnectTo(fmt.Sprintf("%s:%s", mongo_uname, mongo_pass), mongo_host, db_name)
+	var err error = ConnectTo(mongo_uname, mongo_pass, mongo_host, db_name)
 	if err != nil {
 		panic(err)
 	}
