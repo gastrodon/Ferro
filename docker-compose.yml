@@ -1,0 +1,16 @@
+version: "3.7"
+
+services:
+    ferrothorn:
+        build:
+            context: .
+        ports:
+            - 80:80
+            - 443:443
+        environment:
+            - MONGO_HOST
+            - MONGO_USER
+            - MONGO_PASS
+            - FERRO_SECRET
+        volumes:
+            - /files:/home/zero/.ferrothorn/files
