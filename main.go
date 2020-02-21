@@ -28,7 +28,7 @@ func main() {
 
 	log.At(*level)
 
-	var err error = storage.ConnectTo(fmt.Sprintf("%s:%s", mongo_uname, mongo_pass), mongo_host, db_name)
+	var err error = storage.ConnectTo(mongo_uname, mongo_pass, mongo_host, db_name)
 	err = storage.SetFileRoot(*file_root)
 	if err != nil {
 		log.Fatal(err)
