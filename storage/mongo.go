@@ -1,6 +1,7 @@
 package storage
 
 import (
+	"monke-cdn/log"
 	"monke-cdn/util"
 
 	"context"
@@ -9,6 +10,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/mongo/readpref"
 	"path/filepath"
 	"time"
 )
@@ -31,32 +33,41 @@ func timeout_ctx(seconds time.Duration) (ctx context.Context) {
 
 /*
  * Connect to some database. This should be called before database operations are done
- * login    -> database login info
+ * login    -> database login username
+ * password    -> database login password
  * uri      -> database location
  * name     -> database to load from uri
  *
  * returns
  * err      -> error while connecting
  */
-func ConnectTo(login, uri, name string) (err error) {
-	var ctx context.Context
-	ctx = timeout_ctx(10)
+func ConnectTo(login, password, uri, name string) (err error) {
+	log.Tracef("Connecting to %s as %s", uri, login)
+	client, err = mongo.Connect(timeout_ctx(2), options.Client().ApplyURI(fmt.Sprintf("mongodb://%s:%s@%s:27017", login, password, uri)))
 
-	client, err = mongo.Connect(ctx, options.Client().ApplyURI(fmt.Sprintf("mongodb://%s@%s:27017", login, uri)))
+	if err == nil {
+		log.Tracef("Probing mongod server at %s as %s", uri, login)
+		err = client.Ping(timeout_ctx(2), readpref.Primary())
+	}
 
 	if err == nil {
 		database = client.Database(name)
 		media = database.Collection("media")
+		return
 	}
+
+	log.Fatalf("Failed to connect to %s: %s", uri, err)
 
 	return
 }
 
 func DropDB(name string) {
+	log.Tracef("Dropping database %s", name)
 	client.Database(name).Drop(context.TODO())
 }
 
 func NewUUID() (id string, err error) {
+	log.Tracef("Generating a new UUIDv4")
 	var exists bool
 
 	for true {
@@ -64,14 +75,17 @@ func NewUUID() (id string, err error) {
 		_, exists, err = GetUnique(bson.D{{"id", id}})
 
 		if err != nil || !exists {
+
 			break
 		}
 	}
 
+	log.Tracef("Generated %s", id)
 	return
 }
 
 func GetUnique(filt bson.D) (result bson.M, exists bool, err error) {
+	log.Traceln("Getting some unique object")
 	exists = false
 
 	var cursor *mongo.Cursor
@@ -93,20 +107,24 @@ func GetUnique(filt bson.D) (result bson.M, exists bool, err error) {
 		result = results[0]
 	}
 
+	log.Traceln("Unique was found: %t", exists)
 	return
 }
 
 func DeleteUnique(filt bson.D) (deleted bool, err error) {
+	log.Traceln("Deleting some unique object")
 	var result *mongo.DeleteResult
 	result, err = media.DeleteOne(timeout_ctx(5), filt)
 	if err == nil {
 		deleted = result.DeletedCount == 1
 	}
 
+	log.Traceln("Unique was deleted: %t", deleted)
 	return
 }
 
 func CreateReference(id, mime string, md5 []byte) (conflicts bool, err error) {
+	log.Tracef("Creating a reference of %s (%s) -> file", id, mime)
 	_, conflicts, err = GetUnique(bson.D{{"id", id}})
 	if conflicts || err != nil {
 		return

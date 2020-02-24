@@ -1,9 +1,10 @@
 package util
 
 import (
+	"monke-cdn/log"
+
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"time"
 )
@@ -34,7 +35,7 @@ func HTTPResponseError(response http.ResponseWriter, err_message string, code in
 func HTTPInternalError(response http.ResponseWriter, request *http.Request, err error) {
 	var stamp int64 = time.Now().Unix()
 
-	log.Printf("\n[internal][%d]\n%s %s\n%s\n%s", stamp/1000, request.Method, request.URL.Path, request.Body, err.Error())
+	log.Errorf("[%d] %s %s failed! \n[body] %s\n[error] %s", stamp/1000, request.Method, request.URL.Path, request.Body, err.Error())
 
 	HTTPResponseError(response, "internal_error", 500)
 }
