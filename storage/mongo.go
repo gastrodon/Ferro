@@ -107,7 +107,7 @@ func GetUnique(filt bson.D) (result bson.M, exists bool, err error) {
 		result = results[0]
 	}
 
-	log.Traceln("Unique was found: %t", exists)
+	log.Tracef("Unique was found: %t", exists)
 	return
 }
 
@@ -119,7 +119,7 @@ func DeleteUnique(filt bson.D) (deleted bool, err error) {
 		deleted = result.DeletedCount == 1
 	}
 
-	log.Traceln("Unique was deleted: %t", deleted)
+	log.Tracef("Unique was deleted: %t", deleted)
 	return
 }
 
