@@ -12,10 +12,10 @@ import (
 )
 
 var (
-	mongo_uname = os.Getenv("MONGO_USER")
-	mongo_pass  = os.Getenv("MONGO_PASS")
-	mongo_host  = os.Getenv("MONGO_HOST")
-	db_name     = "monke-cdn"
+	mongo_uname = os.Getenv("FERRO_MONGO_USER")
+	mongo_pass  = os.Getenv("FERRO_MONGO_PASS")
+	mongo_host  = os.Getenv("FERRO_MONGO_HOST")
+	db_name     = os.Getenv("FERRO_MONGO_BASE")
 )
 
 func main() {
