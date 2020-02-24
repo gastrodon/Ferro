@@ -5,8 +5,8 @@ services:
         container_name: ferro-mongo
         image: mongo
         environment:
-            MONGO_INITDB_ROOT_USERNAME: foobar
-            MONGO_INITDB_ROOT_PASSWORD: foobar2000
+            - MONGO_INITDB_ROOT_USERNAME=foobar
+            - MONGO_INITDB_ROOT_PASSWORD=foobar2000
         volumes:
             - /data/db:/data/db
 
