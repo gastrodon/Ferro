@@ -47,7 +47,7 @@ func ConnectTo(login, password, uri, name string) (err error) {
 
 	if err == nil {
 		log.Tracef("Probing mongod server at %s as %s", uri, login)
-		err = client.Ping(timeout_ctx(2), readpref.Primary())
+		err = client.Ping(timeout_ctx(20), readpref.Primary())
 	}
 
 	if err == nil {

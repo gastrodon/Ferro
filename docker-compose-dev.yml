@@ -16,9 +16,10 @@ services:
         ports:
             - 80:80
         environment:
-            - MONGO_HOST=ferro-mongo
-            - MONGO_USER=foobar
-            - MONGO_PASS=foobar2000
+            - FERRO_MONGO_HOST=ferro-mongo-dev
+            - FERRO_MONGO_USER=devel
+            - FERRO_MONGO_PASS=foobar2000
+            - FERRO_MONGO_BASE=develop
             - FERRO_LOG_LEVEL=2
             - FERRO_SECRET
         volumes:
