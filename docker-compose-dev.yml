@@ -2,13 +2,13 @@ version: "3.7"
 
 services:
     mongo:
-        container_name: ferro-mongo
+        container_name: ferro-mongo-dev
         image: mongo
         environment:
-            - MONGO_INITDB_ROOT_USERNAME=foobar
+            - MONGO_INITDB_ROOT_USERNAME=devel
             - MONGO_INITDB_ROOT_PASSWORD=foobar2000
         volumes:
-            - /data/db:/data/db
+            - ~/.ferrothorn/db:/data/db
 
     ferrothorn:
         build:
