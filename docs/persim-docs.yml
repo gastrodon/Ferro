@@ -21,7 +21,6 @@ globals:
               value: UUIDv4 of the object being queried
               required: true
 
-
 vars:
     response:
         upload:
@@ -34,6 +33,20 @@ vars:
         file:
             title: Requested file
             description: The binary of the requested file
+
+        not-found:
+            title: No file exists
+            description: There is no record of this file
+            body:
+                lang: JSON
+                content: {"error": "not_found"}
+
+        gone:
+            title: Content is gone
+            description: The server has a record of this file, but something else removed it. This is onyl served once, as the server removes the bad record
+            body:
+                lang: JSON
+                content: {"error": "gone"}
 
         delete:
             title: File deleted
@@ -87,6 +100,8 @@ routes:
 
             responses:
                 200: $response.file
+                404: $response.not-found
+                410: $response.gone
 
         DELETE:
             description: Delete some stored file by its id

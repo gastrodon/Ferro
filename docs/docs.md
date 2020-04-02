@@ -17,10 +17,6 @@ __headers__
 __responses__
 
 - 200 - File uploaded
-File uploaded
-
-The file sent to the server was recieved and stored, and a token was dispatched to the requester
-
 ```JSON
 {
     "id": "UUIDv4 that points to this file"
@@ -60,9 +56,19 @@ __path arguments__
 __responses__
 
 - 200 - Requested file
-Requested file
+- 404 - No file exists
+```JSON
+{
+    "error": "not_found"
+}
+```
 
-The binary of the requested file
+- 410 - Content is gone
+```JSON
+{
+    "error": "gone"
+}
+```
 
 
 </details>
@@ -85,10 +91,6 @@ __path arguments__
 __responses__
 
 - 204 - File deleted
-File deleted
-
-The queried file was destroyed on the server
-
 
 </details>
 
@@ -112,10 +114,6 @@ __path arguments__
 __responses__
 
 - 200 - Content md5
-Content md5
-
-The md5 digest of the queried file
-
 ```JSON
 {
     "md5": "md5 of this file"
@@ -145,9 +143,5 @@ __path arguments__
 __responses__
 
 - 200 - Requested file
-Requested file
-
-The binary of the requested file
-
 
 </details>
