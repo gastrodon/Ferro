@@ -10,7 +10,7 @@ import (
 	"strings"
 )
 
-func uploadMedia(response http.ResponseWriter, request *http.Request, result map[string]interface{}) {
+func serveMedia(response http.ResponseWriter, request *http.Request, result map[string]interface{}) {
 	var where string = result["path"].(string)
 	var exists bool
 	var err error
@@ -86,7 +86,7 @@ func Media(response http.ResponseWriter, request *http.Request) {
 
 	switch request.Method {
 	case "GET":
-		uploadMedia(response, request, result)
+		serveMedia(response, request, result)
 		return
 	case "DELETE":
 		deleteMedia(response, request, result)
