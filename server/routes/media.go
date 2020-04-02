@@ -11,7 +11,33 @@ import (
 )
 
 func uploadMedia(response http.ResponseWriter, request *http.Request, result map[string]interface{}) {
-	http.ServeFile(response, request, result["path"].(string))
+	var where string = result["path"].(string)
+	var exists bool
+	var err error
+	exists, err = storage.Exists(where)
+
+	if err != nil {
+		log.Tracef("Checking existence of %s failed", where)
+		util.HTTPInternalError(response, request, err)
+		return
+	}
+
+	if exists {
+		log.Tracef("File to %s exists and was served", where)
+		http.ServeFile(response, request, result["path"].(string))
+		return
+	}
+
+	log.Tracef("Database points to %s, but it does not exist!", where)
+	_, err = storage.DeleteUnique(bson.D{{"id", result["id"].(string)}})
+	if err != nil {
+		log.Tracef("Deleting record of missing file %s failed!", where)
+		util.HTTPInternalError(response, request, err)
+		return
+	}
+
+	log.Tracef("%s database record is gone! Subsuquent files should return a 404", where)
+	util.HTTPResponseError(response, "gone", 410)
 	return
 }
 

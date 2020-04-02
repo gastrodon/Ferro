@@ -52,3 +52,20 @@ func DeleteFile(path string) (err error) {
 	err = os.Remove(path)
 	return
 }
+
+func Exists(path string) (exists bool, err error) {
+	var info os.FileInfo
+	info, err = os.Stat(path)
+
+	if err == nil {
+		exists = !info.IsDir()
+		return
+	}
+
+	exists = false
+	if os.IsNotExist(err) {
+		err = nil
+	}
+
+	return
+}
