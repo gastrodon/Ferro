@@ -96,14 +96,7 @@ func Root(response http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	var conflicts bool
-	conflicts, err = storage.CreateReference(id, mime, hash_sum)
-	if conflicts {
-		// TODO: allow name overwrites for updating
-		log.Tracef("ID %s conflicts", id)
-		util.HTTPResponseError(response, "name_conflict", 409)
-		return
-	}
+	err = storage.CreateReference(id, mime, hash_sum)
 	if err != nil {
 		log.Errorf("Creating a reference for %s (mime %s) failed", id, mime)
 		util.HTTPInternalError(response, request, err)

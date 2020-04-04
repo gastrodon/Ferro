@@ -123,10 +123,11 @@ func DeleteUnique(filt bson.D) (deleted bool, err error) {
 	return
 }
 
-func CreateReference(id, mime string, md5 []byte) (conflicts bool, err error) {
+func CreateReference(id, mime string, md5 []byte) (err error) {
 	log.Tracef("Creating a reference of %s (%s) -> file", id, mime)
-	_, conflicts, err = GetUnique(bson.D{{"id", id}})
-	if conflicts || err != nil {
+
+	_, err = DeleteUnique(bson.D{{"id", id}})
+	if err != nil {
 		return
 	}
 
