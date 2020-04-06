@@ -1,25 +1,24 @@
-# Ferro(thorn)
+# Ferrothorn
 
 ### Getting Started
 
-Ferro requires the following
+Ferro requires the following to run
 - `Go 1.13+`
 - `Mongo 4.2+`
 
-To use ferro with docker, Ferro requires
+If building with docker, Ferro requires
 - `docker`
 - `docker-compose`
 
-
-To get a development build going, you can use `docker-compose -f docker-compose-dev.yml up`.
-This will create a running instance of Ferro in a container expoed at `localhost:80` and a docker image for it to talk to.
-Relevant files are stored at `~/.ferrothorn`.
+To get a build up, you can use `docker-compose up`.
+This will create a running instance of Ferro in a container expoed at `localhost:8000` and a mongo docker image for it to talk to.
+Relevant files are stored at `/ferrothorn`.
 
 When starting the regular stack (`docker-compose up`), the same thing happens but with files being stored at `/ferrothorn`.
 
 ### How to use
 
-More information can be found inside of the `docs` folder of this repository. Docs can be built with [persim](https://github.com/gastrodon/persim) locally. 
+More information can be found inside of the `docs` folder of this repository. Docs can be built with [persim](https://github.com/gastrodon/persim) locally.
 
 In short, you can `POST`, `GET`, and `DELETE` arbitrary content to ferrothorn. If `FERRO_SECRET` is set, any request that changes content (ie not a `GET`) will require a header `Authentication: $FERRO_SECRET`.
 
@@ -31,19 +30,13 @@ FERRO_MONGO_USER -> Mongodb username
 FERRO_MONGO_PASS -> Mongodb password
 FERRO_MONGO_HOST -> Mongodb server host
 FERRO_MONGO_BASE -> Mongodb database to talk to
-FERRO_SECRET -> Auth header value to look for
+FERRO_SECRET     -> Auth header value to look for
+FERRO_LOG_LEVEL  -> Logger severity level, 2 is most verbose
 ```
 
 ### TODO
-- [ ] Set response mimetype based on `.ext` of a GET
 - [x] POST /
 - [x] GET /:id/
     - [x] file
-    - [ ] ?cropx
-    - [ ] ?cropxy
-    - [ ] ?scale
-    - [ ] ?scalex
-    - [ ] ?scaley
 - [x] DELETE /:id/
 - [ ] GET /:id/md5
-- [ ] GET /:id/thumb

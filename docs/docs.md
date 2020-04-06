@@ -122,26 +122,3 @@ __responses__
 
 
 </details>
-
-
-<details>
-<summary>GET /:id/thumb</summary>
-Get the thumbnail of this image. This is a 512x512 version of this image
-
-__headers__
-
-|name|value|required|
-| - | - | - |
-|Authorization|Auth header that was created by you when configuring this server. Servers should only have one application talking to them at a time, though this may be from a number of nodes with different auth headers|True|
-
-__path arguments__
-
-|name|value|required|
-| - | - | - |
-|id|UUIDv4 of the object being queried|True|
-
-__responses__
-
-- 200 - Requested file
-
-</details>

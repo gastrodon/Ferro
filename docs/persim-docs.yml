@@ -113,9 +113,3 @@ routes:
             description: Get the md5 hash of some file by its id
             responses:
                 200: $response.md5
-
-    /:id/thumb:
-        GET:
-            description: Get the thumbnail of this image. This is a 512x512 version of this image
-            responses:
-                200: $response.file
