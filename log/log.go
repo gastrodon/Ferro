@@ -6,9 +6,9 @@ import (
 )
 
 const (
-	Lerror int = 0
-	Linfo  int = 1
-	Ltrace int = 2
+	Lerror int = iota
+	Linfo
+	Ltrace
 )
 
 var (
