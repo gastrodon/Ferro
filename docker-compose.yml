@@ -19,7 +19,7 @@ services:
             - FERRO_MONGO_USER=ferrothorn
             - FERRO_MONGO_PASS=ferrothorn-local
             - FERRO_MONGO_BASE=ferrothorn
-            - FERRO_LOG_LEVEL
+            - FERRO_LOG_LEVEL=${FERRO_LOG_LEVEL:-2}
             - FERRO_SECRET
         volumes:
             - /ferrothorn/files:/files
