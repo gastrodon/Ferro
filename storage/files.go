@@ -5,6 +5,7 @@ import (
 
 	"fmt"
 	"io"
+	"mime/multipart"
 	"os"
 	"strings"
 )
@@ -22,7 +23,7 @@ func SetFileRoot(where string) (err error) {
 	return
 }
 
-func WriteMultipartFile(id string, file io.Reader) (err error) {
+func WriteMultipartFile(id string, file multipart.File) (err error) {
 	var out *os.File
 	var where string = fmt.Sprintf("%s%s", file_root, id)
 
