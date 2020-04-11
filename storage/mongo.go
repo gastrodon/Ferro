@@ -123,7 +123,7 @@ func DeleteUnique(filt bson.D) (deleted bool, err error) {
 	return
 }
 
-func CreateReference(id, mime string, md5 []byte) (err error) {
+func CreateReference(id, mime string) (err error) {
 	log.Tracef("Creating a reference of %s (%s) -> file", id, mime)
 
 	_, err = DeleteUnique(bson.D{{"id", id}})
@@ -141,7 +141,6 @@ func CreateReference(id, mime string, md5 []byte) (err error) {
 		"path":    absolute,
 		"id":      id,
 		"mime":    mime,
-		"md5":     md5,
 		"created": time.Now().Unix(),
 	}
 
