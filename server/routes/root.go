@@ -110,11 +110,15 @@ func Root(response http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	var r_map map[string]interface{} = map[string]interface{}{
-		"id": id,
-	}
+func RouteRoot(response http.ResponseWriter, request *http.Request) {
+	log.Tracef("Routing root methods")
 
-	log.Tracef("File %s was uploaded", id)
-	util.HTTPResponseJson(response, r_map, 200)
-	return
+	switch request.Method {
+	case "POST":
+		handleUpload(response, request)
+		return
+	default:
+		util.HTTPResponseError(response, "bad_method", 405)
+		return
+	}
 }

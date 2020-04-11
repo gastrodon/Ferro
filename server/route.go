@@ -22,7 +22,7 @@ func RouteMain(response http.ResponseWriter, request *http.Request) {
 
 	switch {
 	case root_pattern.MatchString(path):
-		routes.Root(response, request)
+		routes.RouteRoot(response, request)
 		return
 	case content_pattern.MatchString(path):
 		routes.Media(response, request)
