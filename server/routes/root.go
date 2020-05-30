@@ -68,7 +68,7 @@ func handleUpload(response http.ResponseWriter, request *http.Request) {
 	var err error
 	file, mime, err = getFile(request, "file", fileMemoryLimit)
 	if err != nil {
-		util.HTTPResponseError(response, "bad_request", 4000)
+		util.HTTPResponseError(response, "bad_request", 400)
 		return
 	}
 
