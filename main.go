@@ -12,10 +12,8 @@ import (
 )
 
 var (
-	mongo_uname = os.Getenv("FERRO_MONGO_USER")
-	mongo_pass  = os.Getenv("FERRO_MONGO_PASS")
-	mongo_host  = os.Getenv("FERRO_MONGO_HOST")
-	db_name     = os.Getenv("FERRO_MONGO_BASE")
+	mongo_connection = os.Getenv("FERRO_CONNECTION")
+	db_name          = os.Getenv("FERRO_MONGO_BASE")
 )
 
 func main() {
@@ -28,7 +26,7 @@ func main() {
 
 	log.At(*level)
 
-	var err error = storage.ConnectTo(mongo_uname, mongo_pass, mongo_host, db_name)
+	var err error = storage.ConnectTo(mongo_connection, db_name)
 	err = storage.SetFileRoot(*file_root)
 	if err != nil {
 		log.Fatal(err)

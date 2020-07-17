@@ -15,11 +15,11 @@ services:
         ports:
             - 8000:80
         environment:
-            - FERRO_MONGO_HOST=ferro-mongo
-            - FERRO_MONGO_USER=ferrothorn
-            - FERRO_MONGO_PASS=ferrothorn-local
+            - FERRO_CONNECTION=mongodb://ferrothorn:ferrothorn-local@mongo:27017
             - FERRO_MONGO_BASE=ferrothorn
             - FERRO_LOG_LEVEL=${FERRO_LOG_LEVEL:-2}
             - FERRO_SECRET
         volumes:
             - /ferrothorn/files:/files
+        depends_on:
+            - mongo
