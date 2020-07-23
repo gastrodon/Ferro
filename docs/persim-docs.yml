@@ -5,22 +5,6 @@ globals:
               value: Auth header that was created by you when configuring this server. Servers should only have one application talking to them at a time, though this may be from a number of nodes with different auth headers
               required: true
 
-    path arguments:
-        "GET":
-            - name: id
-              value: UUIDv4 of the object being queried
-              required: true
-
-        "DELETE":
-            - name: id
-              value: UUIDv4 of the object being queried
-              required: true
-
-        "PUT":
-            - name: id
-              value: UUIDv4 of the object being queried
-              required: true
-
 vars:
     response:
         upload:
@@ -63,53 +47,23 @@ routes:
     /:
         POST:
             description: Upload some file. POST body should be multipart data containing the mime data to upload
-            query strings:
-                - name: name
-                  value: optional name of this file, if a random UUIDv4 is not desired
-                  type: string
-
             responses:
                 200: $response.upload
 
     /:id/:
         GET:
             description: Get some stored file by its id
-            query strings:
-                - name: cropx
-                  value: Pixel crop on both ends of the x axis
-                  type: int
-                  default: 0
-
-                - name: cropy
-                  value: Pixel crop on both ends of the y axis
-                  type: int
-                  default: 0
-
-                - name: scale
-                  value: Image scale percent. Thumbnails use 30(?)
-                  type: int > 0
-                  default: 100
-
-                - name: scalex
-                  value: Pixel scale on x axis
-                  type: int
-
-                - name: scaley
-                  value: Pixel scale on y axis
-                  type: int
 
             responses:
                 200: $response.file
                 404: $response.not-found
-                410: $response.gone
 
+        POST:
+            description: Upload some file with a predefined name. Will repalce any file with this name already
+            responses:
+                200: $response.upload
+                
         DELETE:
             description: Delete some stored file by its id
             responses:
                 204: $response.delete
-
-    /:id/md5:
-        GET:
-            description: Get the md5 hash of some file by its id
-            responses:
-                200: $response.md5

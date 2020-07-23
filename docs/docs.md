@@ -2,12 +2,6 @@
 <summary>POST /</summary>
 Upload some file. POST body should be multipart data containing the mime data to upload
 
-__query strings__
-
-|name|value|type|
-| - | - | - |
-|name|optional name of this file, if a random UUIDv4 is not desired|string|
-
 __headers__
 
 |name|value|required|
@@ -31,27 +25,11 @@ __responses__
 <summary>GET /:id/</summary>
 Get some stored file by its id
 
-__query strings__
-
-|name|value|type|default|
-| - | - | - | - |
-|cropx|Pixel crop on both ends of the x axis|int|0|
-|cropy|Pixel crop on both ends of the y axis|int|0|
-|scale|Image scale percent. Thumbnails use 30(?)|int > 0|100|
-|scalex|Pixel scale on x axis|int| |
-|scaley|Pixel scale on y axis|int| |
-
 __headers__
 
 |name|value|required|
 | - | - | - |
 |Authorization|Auth header that was created by you when configuring this server. Servers should only have one application talking to them at a time, though this may be from a number of nodes with different auth headers|True|
-
-__path arguments__
-
-|name|value|required|
-| - | - | - |
-|id|UUIDv4 of the object being queried|True|
 
 __responses__
 
@@ -63,10 +41,24 @@ __responses__
 }
 ```
 
-- 410 - Content is gone
+
+</details>
+<details>
+<summary>POST /:id/</summary>
+Upload some file with a predefined name. Will repalce any file with this name already
+
+__headers__
+
+|name|value|required|
+| - | - | - |
+|Authorization|Auth header that was created by you when configuring this server. Servers should only have one application talking to them at a time, though this may be from a number of nodes with different auth headers|True|
+
+__responses__
+
+- 200 - File uploaded
 ```JSON
 {
-    "error": "gone"
+    "id": "UUIDv4 that points to this file"
 }
 ```
 
@@ -82,43 +74,8 @@ __headers__
 | - | - | - |
 |Authorization|Auth header that was created by you when configuring this server. Servers should only have one application talking to them at a time, though this may be from a number of nodes with different auth headers|True|
 
-__path arguments__
-
-|name|value|required|
-| - | - | - |
-|id|UUIDv4 of the object being queried|True|
-
 __responses__
 
 - 204 - File deleted
-
-</details>
-
-
-<details>
-<summary>GET /:id/md5</summary>
-Get the md5 hash of some file by its id
-
-__headers__
-
-|name|value|required|
-| - | - | - |
-|Authorization|Auth header that was created by you when configuring this server. Servers should only have one application talking to them at a time, though this may be from a number of nodes with different auth headers|True|
-
-__path arguments__
-
-|name|value|required|
-| - | - | - |
-|id|UUIDv4 of the object being queried|True|
-
-__responses__
-
-- 200 - Content md5
-```JSON
-{
-    "md5": "md5 of this file"
-}
-```
-
 
 </details>
