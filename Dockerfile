@@ -1,12 +1,13 @@
-FROM golang:1.13
+FROM golang:latest
 
 WORKDIR /src
 COPY . .
 
-ENV FERRO_SECRET ""
-ENV FERRO_LOG_LEVEL 2
+ENV FERROTHORN_CONNECTION ""
+ENV FERROTHORN_ROOT ""
+ENV FERROTHORN_SECRET ""
 
-RUN mkdir -p /files
 RUN go get ./...
+RUN go build -o ferrothorn .
 
-ENTRYPOINT go run . -port 80 -at /files -level $FERRO_LOG_LEVEL
+ENTRYPOINT ./ferrothorn

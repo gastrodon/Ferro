@@ -1,25 +1,14 @@
 version: "3"
 
 services:
-    mongo:
-        container_name: ferro-mongo
-        image: mongo
-        environment:
-            - MONGO_INITDB_ROOT_USERNAME=ferrothorn
-            - MONGO_INITDB_ROOT_PASSWORD=ferrothorn-local
-        volumes:
-            - /ferrothorn/db:/data/db
     ferrothorn:
         build:
             context: .
         ports:
-            - 8000:80
+            - 80:8000
         environment:
-            - FERRO_CONNECTION=mongodb://ferrothorn:ferrothorn-local@mongo:27017
-            - FERRO_MONGO_BASE=ferrothorn
-            - FERRO_LOG_LEVEL=${FERRO_LOG_LEVEL:-2}
-            - FERRO_SECRET
+            - FERROTHORN_ROOT=/files
+            - FERROTHORN_CONNECTION
+            - FERROTHORN_SECRET
         volumes:
-            - /ferrothorn/files:/files
-        depends_on:
-            - mongo
+            - ./ferrothorn/files:/files
