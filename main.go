@@ -1,39 +1,47 @@
 package main
 
 import (
-	"monke-cdn/log"
-	"monke-cdn/server"
-	"monke-cdn/storage"
+	"github.com/gastrodon/ferrothorn/server"
+	"github.com/gastrodon/ferrothorn/storage"
 
-	"flag"
-	"fmt"
+	"github.com/gastrodon/groudon"
+
+	"log"
 	"net/http"
 	"os"
+	"strings"
 )
 
 var (
-	mongo_connection = os.Getenv("FERRO_CONNECTION")
-	db_name          = os.Getenv("FERRO_MONGO_BASE")
+	root = os.Getenv("FERROTHORN_ROOT")
 )
 
-func main() {
-	var (
-		level     *int    = flag.Int("level", 1, "logging level")
-		file_root *string = flag.String("at", "/monke/files/", "File storage root")
-		port      *int    = flag.Int("port", 8000, "port to serve")
-	)
-	flag.Parse()
+func splitIgnoreEmpty(it rune) (ok bool) {
+	ok = it == '/'
+	return
+}
 
-	log.At(*level)
+func splitter(writer http.ResponseWriter, request *http.Request) {
+	var split []string = strings.FieldsFunc(request.URL.Path, splitIgnoreEmpty)
 
-	var err error = storage.ConnectTo(mongo_connection, db_name)
-	err = storage.SetFileRoot(*file_root)
-	if err != nil {
-		log.Fatal(err)
+	switch {
+	case request.Method != "GET", len(split) != 1:
+		groudon.Route(writer, request)
+	default:
+		server.ServeContent(writer, request, split[0])
 	}
 
-	http.HandleFunc("/", server.RouteMain)
+	return
+}
 
-	log.Println("CDN online")
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", *port), nil))
+func main() {
+	storage.Connect(os.Getenv("FERROTHORN_CONNECTION"))
+	storage.FileRoot(root)
+
+	groudon.RegisterMiddleware(server.MustAuth)
+	groudon.RegisterHandler("POST", `^/$`, server.UploadContent)
+	groudon.RegisterHandler("POST", `^/[a-zA-Z0-9\-\.]+/?$`, server.UploadNamedContent)
+	groudon.RegisterHandler("DELETE", `^/[a-zA-Z0-9\-\.]+/?$`, server.DeleteContent)
+	http.Handle("/", http.HandlerFunc(splitter))
+	log.Fatal(http.ListenAndServe(":8000", nil))
 }
