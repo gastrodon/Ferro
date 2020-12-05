@@ -19,6 +19,6 @@ This is intended as a fileserve for a single application (ie some application wi
 ### Environment Variables
 ```
 FERROTHORN_ROOT         -> Root directory for all files
-FERROTHORN_CONNECTION   -> mysql cinnection string
+FERROTHORN_CONNECTION   -> mysql connection string
 FERROTHORN_SECRET       -> Authorization header needed to make changes
 ```
