@@ -13,7 +13,8 @@ import (
 )
 
 var (
-	root = os.Getenv("FERROTHORN_ROOT")
+	root   = os.Getenv("FERROTHORN_ROOT")
+	secret = os.Getenv("FERROTHORN_SECRET")
 )
 
 const (
@@ -46,8 +47,10 @@ func main() {
 	storage.Connect(os.Getenv("FERROTHORN_CONNECTION"))
 	storage.FileRoot(root)
 
-	groudon.AddMiddleware("POST", ROUTE_ANY, server.MustAuth)
-	groudon.AddMiddleware("DELETE", ROUTE_ANY, server.MustAuth)
+	if secret != "" {
+		groudon.AddMiddleware("POST", ROUTE_ANY, server.MustAuth)
+		groudon.AddMiddleware("DELETE", ROUTE_ANY, server.MustAuth)
+	}
 
 	groudon.AddHandler("POST", ROUTE_ROOT, server.UploadContent)
 	groudon.AddHandler("POST", ROUTE_FILE, server.UploadNamedContent)
